@@ -43,7 +43,7 @@ func NewClient(input NewClientInput) (*Client, error) {
 		baseURL:      u,
 		timeout:      timeout,
 	}
-	resp, err := c.Test(&TestInput{})
+	resp, err := c.Test(TestInput{})
 	if err != nil {
 		return nil, err
 	}

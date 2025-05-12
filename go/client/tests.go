@@ -16,9 +16,9 @@ type TestResponse struct {
 	Data         *TestEchoData `json:"data,omitempty"`
 }
 
-func (c *Client) Test(input *TestInput) (*TestResponse, error) {
+func (c *Client) Test(input TestInput) (*TestResponse, error) {
 	var output TestResponse
-	if err := c.request("test", input, &output); err != nil {
+	if err := c.request("test", &input, &output); err != nil {
 		return nil, err
 	}
 	return &output, nil

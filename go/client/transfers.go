@@ -5,6 +5,7 @@ import "time"
 type Transfer struct {
 	ID                 int64          `json:"id"`
 	CreatedAt          time.Time      `json:"createdAt"`
+	SettledAt          *time.Time     `json:"settledAt,omitempty"`
 	Account            string         `json:"account"`
 	MerchantTransferID string         `json:"merchantTransferId"`
 	IsDeposit          bool           `json:"isDeposit"`

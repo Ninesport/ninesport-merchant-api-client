@@ -5,9 +5,10 @@ import (
 	"testing"
 
 	"github.com/Ninesport/ninesport-merchant-api-client/go/client"
+	"github.com/stretchr/testify/assert"
 )
 
-func MustNewClient(t *testing.T) *client.Client {
+func MustNewClient(assert *assert.Assertions) *client.Client {
 	merchantCode := os.Getenv("NS_MERCHANT_CODE")
 	secretKey := os.Getenv("NS_SECRET_KEY")
 	baseUrl := os.Getenv("NS_BASE_URL")
@@ -16,13 +17,13 @@ func MustNewClient(t *testing.T) *client.Client {
 		SecretKey:    secretKey,
 		BaseURL:      baseUrl,
 	})
-	if err != nil {
-		t.Error(err)
+	if !assert.Nil(err) {
 		panic(err)
 	}
 	return c
 }
 
 func TestNewClient(t *testing.T) {
-	MustNewClient(t)
+	assert := assert.New(t)
+	MustNewClient(assert)
 }
