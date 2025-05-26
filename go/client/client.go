@@ -14,6 +14,7 @@ import (
 type Client struct {
 	merchantCode string
 	secretKey    string
+	signType     SignType
 	baseURL      *url.URL
 	timeout      time.Duration
 }
@@ -21,6 +22,7 @@ type Client struct {
 type NewClientInput struct {
 	MerchantCode string
 	SecretKey    string
+	SignType     SignType
 	// Ex: https://xxxxx/api/v1
 	BaseURL string
 	Timeout time.Duration
@@ -37,9 +39,14 @@ func NewClient(input NewClientInput) (*Client, error) {
 		timeout = input.Timeout
 	}
 
+	if !input.SignType.IsValid() {
+		return nil, fmt.Errorf("sign type: %d not supported", input.SignType)
+	}
+
 	c := &Client{
 		merchantCode: input.MerchantCode,
 		secretKey:    input.SecretKey,
+		signType:     input.SignType,
 		baseURL:      u,
 		timeout:      timeout,
 	}
@@ -53,14 +60,24 @@ func NewClient(input NewClientInput) (*Client, error) {
 	return c, nil
 }
 
+func (c *Client) sign(queryString string) (string, error) {
+	switch c.signType {
+	case API_SIGN_TYPE_SHA256:
+		return SignSHA256(c.secretKey, queryString)
+	case API_SIGN_TYPE_SHA512:
+		return SignSHA512(c.secretKey, queryString)
+	}
+	return "", fmt.Errorf("sign type: %d not implemented", c.signType)
+}
 func (c *Client) request(path string, input BaseInputer, output any) error {
 	input.SetTimestamp()
 	input.SetMerchantCode(c.merchantCode)
+	input.SetSignType(c.signType)
 	queryString, err := ToQueryString(input, true)
 	if err != nil {
 		return err
 	}
-	sign, err := Sign(c.secretKey, queryString)
+	sign, err := c.sign(queryString)
 	if err != nil {
 		return err
 	}

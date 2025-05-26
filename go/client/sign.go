@@ -2,6 +2,7 @@ package client
 
 import (
 	"crypto/sha256"
+	"crypto/sha512"
 	"encoding/hex"
 	"fmt"
 	"sort"
@@ -35,12 +36,28 @@ func ToQueryString(obj any, keyDesc bool) (string, error) {
 	return strings.Join(strs, "&"), nil
 }
 
-func Sign(secretKey string, queryString string) (string, error) {
+func SignSHA256(secretKey string, queryString string) (string, error) {
 	signString := fmt.Sprintf("%s&secretKey=%s", queryString, secretKey)
 	if DEBUG {
-		fmt.Printf("[signString]: %s\n", signString)
+		fmt.Printf("[sha256-signString]: %s\n", signString)
 	}
 	h := sha256.New()
+	_, err := h.Write([]byte(signString))
+	if err != nil {
+		return "", err
+	}
+	sign := strings.ToUpper(hex.EncodeToString(h.Sum(nil)))
+	if DEBUG {
+		fmt.Printf("[sign]: %s\n", sign)
+	}
+	return sign, nil
+}
+func SignSHA512(secretKey string, queryString string) (string, error) {
+	signString := fmt.Sprintf("%s&secretKey=%s", queryString, secretKey)
+	if DEBUG {
+		fmt.Printf("[sha512-signString]: %s\n", signString)
+	}
+	h := sha512.New()
 	_, err := h.Write([]byte(signString))
 	if err != nil {
 		return "", err

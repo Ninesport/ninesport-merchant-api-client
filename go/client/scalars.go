@@ -180,3 +180,30 @@ const (
 	TRANSFER_STATUS_FAILED
 	TRANSFER_STATUS_SUCCESS
 )
+
+type SignType uint8
+
+const (
+	API_SIGN_TYPE_SHA256 SignType = iota + 1
+	API_SIGN_TYPE_SHA512
+	API_SIGN_TYPE_DILITHIUM2
+	API_SIGN_TYPE_DILITHIUM3
+	API_SIGN_TYPE_DILITHIUM5
+	API_SIGN_TYPE_FALCON512
+)
+
+var SignTypes []SignType = []SignType{
+	API_SIGN_TYPE_SHA256,
+	API_SIGN_TYPE_SHA512,
+	API_SIGN_TYPE_DILITHIUM2,
+	API_SIGN_TYPE_DILITHIUM3,
+	API_SIGN_TYPE_DILITHIUM5,
+	API_SIGN_TYPE_FALCON512,
+}
+
+func (s SignType) IsValid() bool {
+	return slices.Contains(SignTypes, s)
+}
+func PointerSignType(value SignType) *SignType {
+	return &value
+}

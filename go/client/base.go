@@ -5,14 +5,16 @@ import "time"
 type BaseInputer interface {
 	SetSign(sign string)
 	SetTimestamp()
+	SetSignType(signType SignType)
 	// 回傳的值其實是UUID格式
 	SetMerchantCode(merchantCode string)
 }
 
 type BaseInput struct {
-	Timestamp    int64  `json:"timestamp" url:"timestamp"`
-	MerchantCode string `json:"merchantCode" url:"merchantCode"`
-	Sign         string `json:"sign" url:"-"`
+	Timestamp    int64    `json:"timestamp" url:"timestamp"`
+	MerchantCode string   `json:"merchantCode" url:"merchantCode"`
+	SignType     SignType `json:"signType" url:"signType"`
+	Sign         string   `json:"sign" url:"-"`
 }
 
 func (b *BaseInput) SetSign(sign string) {
@@ -25,6 +27,9 @@ func (b *BaseInput) SetTimestamp() {
 
 func (b *BaseInput) SetMerchantCode(merchantCode string) {
 	b.MerchantCode = merchantCode
+}
+func (b *BaseInput) SetSignType(signType SignType) {
+	b.SignType = signType
 }
 
 type BaseResponse struct {
