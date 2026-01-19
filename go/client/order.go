@@ -18,16 +18,21 @@ type Order struct {
 	FoldSize                      uint8       `json:"foldSize"`
 	PerStakeAmount                string      `json:"perStakeAmount"`
 	CombinationCount              int         `json:"combinationCount"`
-	StakeAmount                   string      `json:"stakeAmount"`
-	MaxPriceWithoutDiv            string      `json:"maxPriceWithoutDiv"`
-	MaxInexactPrice               float64     `json:"maxInexactPriced"`
-	MaxPayout                     string      `json:"maxPayout"`
-	PayoutPriceWithoutDiv         *string     `json:"payoutPriceWithoutDiv"`
-	ActualInexactPrice            *float64    `json:"actualInexactPrice"`
-	PayoutAmount                  *string     `json:"payoutAmount"`
-	EffectiveStakeAmount          *string     `json:"effectiveStakeAmount"`
-	IsSingle                      bool        `json:"isSingle"`
-	Legs                          []*Leg      `json:"legs"`
+	// 下注額
+	StakeAmount           string  `json:"stakeAmount"`
+	MaxPriceWithoutDiv    string  `json:"maxPriceWithoutDiv"`
+	MaxInexactPrice       float64 `json:"maxInexactPriced"`
+	MaxPayout             string  `json:"maxPayout"`
+	PayoutPriceWithoutDiv *string `json:"payoutPriceWithoutDiv"`
+	// 實際賠率
+	ActualInexactPrice *float64 `json:"actualInexactPrice"`
+	// 實際賠付額
+	PayoutAmount *string `json:"payoutAmount"`
+	// 有效投注额
+	Turnover *string `json:"turnover"`
+	IsSingle bool    `json:"isSingle"`
+	// 子注
+	Legs []*Leg `json:"legs"`
 }
 
 type Leg struct {
