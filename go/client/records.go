@@ -30,7 +30,7 @@ func (c *Client) ListTransfers(input ListTransfersInput) (*ListTransfersResponse
 
 type GetTransferInput struct {
 	BaseInput          `json:",inline"`
-	MerchantTransferID string
+	MerchantTransferID string `json:"merchantTransferID" url:"merchantTransferID"`
 }
 
 type GetTransferResponse struct {
