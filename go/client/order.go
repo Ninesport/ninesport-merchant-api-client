@@ -36,17 +36,17 @@ type Order struct {
 }
 
 type Leg struct {
-	SportID          int64       `json:"sportID"`
-	SportName        string      `json:"sportName"`
-	LeagueName       string      `json:"leagueName"`
-	ParticipantName  []string    `json:"participantName"`
-	MarketTypeName   string      `json:"marketTypeName"`
-	BetName          string      `json:"betName"`
-	ActualPrice      string      `json:"actualPrice"`
-	PayoutPrice      *string     `json:"payoutPrice"`
-	StartedAt        *time.Time  `json:"startedAt"`
-	FinishedAt       *time.Time  `json:"finishedAt"`
-	LastUpdatedAt    time.Time   `json:"lastUpdatedAt"`
-	EventStatus      EventStatus `json:"eventStatus"`
-	IsOutrightLeague bool        `json:"isOutrightLeague"`
+	SportID            int64      `json:"sportID"`
+	SportName          string     `json:"sportName"`
+	LeagueName         string     `json:"leagueName"`
+	ParticipantName    []string   `json:"participantName"`
+	MarketTypeName     string     `json:"marketTypeName"`
+	BetName            string     `json:"betName"`
+	ActualPrice        string     `json:"actualPrice"`
+	PayoutPrice        *string    `json:"payoutPrice"`
+	StartedAt          *time.Time `json:"startedAt"`
+	FinishedAt         *time.Time `json:"finishedAt"`
+	LastUpdatedAt      time.Time  `json:"lastUpdatedAt"`
+	SettlementTypeName *string    `json:"settlementTypeName"`
+	IsOutrightLeague   bool       `json:"isOutrightLeague"`
 }
