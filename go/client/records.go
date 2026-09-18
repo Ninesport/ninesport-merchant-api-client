@@ -30,7 +30,7 @@ func (c *Client) ListTransfers(input ListTransfersInput) (*ListTransfersResponse
 
 type GetTransferInput struct {
 	BaseInput          `json:",inline"`
-	MerchantTransferID string `json:"merchantTransferID" url:"merchantTransferID"`
+	MerchantTransferID string `json:"merchantTransferId" url:"merchantTransferId"`
 }
 
 type GetTransferResponse struct {
@@ -55,7 +55,7 @@ type ListBetRecordsInput struct {
 	Status            *OrderStatus `json:"status,omitempty" url:"status,omitempty"`
 	Language          *string      `json:"language,omitempty" url:"language,omitempty"`
 	IsSettledInterval *bool        `json:"isSettledInterval,omitempty" url:"isSettledInterval,omitempty"`
-	SportID           *int64       `json:"sportID,omitempty" url:"sportID,omitempty"`
+	SportID           *int64       `json:"sportId,omitempty" url:"sportId,omitempty"`
 }
 type ListBetRecordsData struct {
 	PagenateResponse `json:",inline"`

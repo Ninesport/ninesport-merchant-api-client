@@ -10,7 +10,7 @@ import (
 func MustGetOrCreatePlayer(assert *assert.Assertions) *client.Player {
 	c := MustNewClient(assert)
 	getResp, err := c.GetPlayer(client.GetPlayerInput{
-		Account: randomAccount,
+		Account: RANDOM_ACCOUNT,
 	})
 	if !assert.Nil(err) {
 		panic(err)
@@ -18,7 +18,7 @@ func MustGetOrCreatePlayer(assert *assert.Assertions) *client.Player {
 	switch getResp.Code {
 	case client.API_STATUS_CODE_PLAYER_NOT_FOUND:
 		createResp, err := c.CreatePlayer(client.CreatePlayerInput{
-			Account: randomAccount,
+			Account: RANDOM_ACCOUNT,
 		})
 		if !assert.Nil(err, "createPlayer must success, but got error: %v", err) {
 			panic(err)
@@ -27,7 +27,7 @@ func MustGetOrCreatePlayer(assert *assert.Assertions) *client.Player {
 		if !assert.NotNil(createResp.Data) {
 			panic("createPlayer must success, but got nil data")
 		}
-		assert.Equal(randomAccount, createResp.Data.Account)
+		assert.Equal(RANDOM_ACCOUNT, createResp.Data.Account)
 		return createResp.Data
 	case client.API_STATUS_CODE_SUCCESS:
 		return getResp.Data
@@ -43,7 +43,7 @@ func TestPlayers(t *testing.T) {
 	c := MustNewClient(assert)
 
 	player := MustGetOrCreatePlayer(assert)
-	assert.Equal(randomAccount, player.Account)
+	assert.Equal(RANDOM_ACCOUNT, player.Account)
 
 	pageSize := 1000
 	listResp, err := c.ListOnlinePlayers(client.ListOnlinePlayersInput{

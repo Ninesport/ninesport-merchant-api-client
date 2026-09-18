@@ -13,7 +13,7 @@ type Order struct {
 	BillCurrencyType              string      `json:"billCurrencyType"`
 	CurrencyType                  string      `json:"currencyType"`
 	ExchangeRate                  string      `json:"exchangeRate"`
-	CombinationBetOptionID        int64       `json:"combinationBetOptionID"`
+	CombinationBetOptionID        int64       `json:"combinationBetOptionId"`
 	CombinationBetOptionLocalName string      `json:"combinationBetOptionLocalName"`
 	FoldSize                      uint8       `json:"foldSize"`
 	PerStakeAmount                string      `json:"perStakeAmount"`
@@ -36,7 +36,7 @@ type Order struct {
 }
 
 type Leg struct {
-	SportID            int64      `json:"sportID"`
+	SportID            int64      `json:"sportId"`
 	SportName          string     `json:"sportName"`
 	LeagueName         string     `json:"leagueName"`
 	ParticipantName    []string   `json:"participantName"`

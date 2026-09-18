@@ -17,7 +17,7 @@ type Transfer struct {
 
 type DepositInput struct {
 	BaseInput          `json:",inline"`
-	MerchantTransferID string        `json:"merchantTransferID" url:"merchantTransferID"`
+	MerchantTransferID string        `json:"merchantTransferId" url:"merchantTransferId"`
 	Account            string        `json:"account" url:"account"`
 	CurrencyType       *CurrencyType `json:"currencyType" url:"currencyType"`
 	Amount             string        `json:"amount" url:"amount"`

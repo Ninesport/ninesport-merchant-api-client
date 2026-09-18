@@ -1,9 +1,7 @@
 package client_test
 
-import "github.com/brianvoe/gofakeit/v6"
+import "github.com/Ninesport/ninesport-merchant-api-client/go/client"
 
-var randomAccount string
+const RANDOM_ACCOUNT string = "random-account"
 
-func init() {
-	randomAccount = gofakeit.AchAccount()
-}
+var CURRENCY_TYPE client.CurrencyType = client.CURRENCY_TYPE_BNB

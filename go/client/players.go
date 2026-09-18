@@ -9,7 +9,7 @@ type Player struct {
 	LastLoginAt *time.Time `json:"lastLoginAt,omitempty"`
 	IsOnline    bool       `json:"isOnline"`
 	IsActive    bool       `json:"isActive"`
-	Nickname    *string    `json:"nickName,omitempty"`
+	Nickname    *string    `json:"nickname,omitempty"`
 }
 
 type CreatePlayerInput struct {

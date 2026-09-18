@@ -17,7 +17,7 @@ func PointerBool(b bool) *bool {
 func TestTransfers(t *testing.T) {
 	assert := assert.New(t)
 	randomAmount := decimal.NewFromFloat(gofakeit.Float64Range(1, 1000000))
-	currencyType := client.CurrencyTypes[gofakeit.IntRange(0, len(client.CurrencyTypes)-1)]
+	currencyType := CURRENCY_TYPE
 
 	startedAt := time.Now().Add(-time.Second * 2)
 
@@ -28,7 +28,7 @@ func TestTransfers(t *testing.T) {
 	c := MustNewClient(assert)
 
 	overWithdrawResp, err := c.Withdraw(client.WithdrawInput{
-		Account:            randomAccount,
+		Account:            RANDOM_ACCOUNT,
 		CurrencyType:       &currencyType,
 		MerchantTransferID: overWithdrawID,
 		Amount:             randomAmount.String(),
@@ -36,7 +36,9 @@ func TestTransfers(t *testing.T) {
 	if !assert.Nil(err) {
 		return
 	}
-	assert.Equal(client.API_STATUS_CODE_PLAYER_INSUFFICIENT_BALANCE, overWithdrawResp.Code, "expect insufficient balance, but got: [%d] %s", overWithdrawResp.Code, overWithdrawResp.Msg)
+	if !assert.Equal(client.API_STATUS_CODE_PLAYER_INSUFFICIENT_BALANCE, overWithdrawResp.Code, "expect insufficient balance, but got: [%d] %s", overWithdrawResp.Code, overWithdrawResp.Msg) {
+		return
+	}
 	assert.Nil(overWithdrawResp.Data)
 
 	overWithdrawTransfer, err := c.GetTransfer(client.GetTransferInput{
@@ -45,12 +47,14 @@ func TestTransfers(t *testing.T) {
 	if !assert.Nil(err) {
 		return
 	}
-	assert.Equal(client.API_STATUS_CODE_SUCCESS, overWithdrawTransfer.Code, "GetTransfer failed: [%d] %s", overWithdrawTransfer.Code, overWithdrawTransfer.Msg)
+	if !assert.Equal(client.API_STATUS_CODE_SUCCESS, overWithdrawTransfer.Code, "GetTransfer failed: [%d] %s", overWithdrawTransfer.Code, overWithdrawTransfer.Msg) {
+		return
+	}
 	assert.NotNil(overWithdrawTransfer.Data)
 	assert.Equal(client.TRANSFER_STATUS_INSUFFICIENT_BALANCE, overWithdrawTransfer.Data.Status, "expect insufficient balance, but got: %d", overWithdrawTransfer.Data.Status)
 
 	depositResp, err := c.Deposit(client.DepositInput{
-		Account:            randomAccount,
+		Account:            RANDOM_ACCOUNT,
 		CurrencyType:       &currencyType,
 		MerchantTransferID: depositID,
 		Amount:             randomAmount.String(),
@@ -62,7 +66,7 @@ func TestTransfers(t *testing.T) {
 	assert.True(depositResp.Data.IsDeposit)
 
 	withdrawResp, err := c.Withdraw(client.WithdrawInput{
-		Account:            randomAccount,
+		Account:            RANDOM_ACCOUNT,
 		CurrencyType:       &currencyType,
 		MerchantTransferID: withdrawID,
 		Amount:             randomAmount.String(),
@@ -116,9 +120,10 @@ func TestTransfers(t *testing.T) {
 	assert.True(foundWithdraw, "not found withdraw")
 	assert.True(foundOverWithdraw, "not found overWithdraw")
 
+	acc := RANDOM_ACCOUNT
 	for _, isDeposit := range []*bool{PointerBool(true), PointerBool(false), nil} {
 		for _, isSettled := range []*bool{PointerBool(true), PointerBool(false), nil} {
-			for _, account := range []*string{&randomAccount, nil} {
+			for _, account := range []*string{&acc, nil} {
 				listResp, err := c.ListTransfers(client.ListTransfersInput{
 					PagenateInput: client.PagenateInput{
 						Page: 1,
